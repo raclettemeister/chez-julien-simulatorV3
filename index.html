@@ -6796,28 +6796,29 @@ ${gameState.gameLog.join('\n')}
             const mod = difficultyModifiers[gameState.difficulty];
 
             // === BASE SALES ===
-            // Starting point for a struggling bulk store - épicerie sèche is dying
-            let baseSales = 12000;
+            // Starting point for a bulk store - viable with growth potential
+            // Balanced for €80k at month 23-24 (simulation-tested)
+            let baseSales = 22500;
 
             // === COMPOUNDING EFFECT 1: CHEESE TYPES ===
-            // Cheese transforms the business - but growth is gradual
-            // First 20 cheeses: €50 each (building the foundation)
-            // 21-50 cheeses: €60 each (becoming known)
-            // 51+ cheeses: €30 each (diminishing returns)
+            // Cheese transforms the business - this is your main growth lever
+            // First 20 cheeses: €100 each (building the foundation)
+            // 21-50 cheeses: €120 each (becoming a destination)
+            // 51+ cheeses: €60 each (diminishing returns)
             let cheeseBonus = 0;
             if (gameState.cheeseTypes <= 20) {
-                cheeseBonus = gameState.cheeseTypes * 50;
+                cheeseBonus = gameState.cheeseTypes * 100;
             } else if (gameState.cheeseTypes <= 50) {
-                cheeseBonus = 1000 + (gameState.cheeseTypes - 20) * 60;
+                cheeseBonus = 2000 + (gameState.cheeseTypes - 20) * 120;
             } else {
-                cheeseBonus = 1000 + 1800 + (gameState.cheeseTypes - 50) * 30;
+                cheeseBonus = 2000 + 3600 + (gameState.cheeseTypes - 50) * 60;
             }
             baseSales += cheeseBonus;
 
             // === COMPOUNDING EFFECT 2: REPUTATION MULTIPLIER ===
-            // Reputation helps but isn't a money machine
-            // Rep 50 = 1.0x, Rep 70 = 1.08x, Rep 90 = 1.16x
-            const reputationMultiplier = 0.80 + (gameState.reputation * 0.004);
+            // Reputation helps - good reputation means more customers
+            // Rep 50 = 1.0x, Rep 70 = 1.10x, Rep 90 = 1.20x
+            const reputationMultiplier = 0.75 + (gameState.reputation * 0.005);
             baseSales *= reputationMultiplier;
 
             // === COMPOUNDING EFFECT 3: AUTONOMY EFFICIENCY ===
@@ -6941,11 +6942,11 @@ ${gameState.gameLog.join('\n')}
             let netProfit = baseSales - totalExpenses;
 
             // === TAXES ===
-            // Belgium small business tax ~25% on profit
+            // Belgium small business tax ~20% on profit
             // But only if you're actually making money
             let taxes = 0;
             if (netProfit > 0) {
-                taxes = netProfit * 0.25;
+                taxes = netProfit * 0.20;
                 netProfit -= taxes;
             }
 
