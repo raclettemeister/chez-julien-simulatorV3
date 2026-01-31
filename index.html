@@ -2405,7 +2405,7 @@
         // ============================================
         // GAME VERSION - Update this when making changes!
         // ============================================
-        const GAME_VERSION = "v2.1 - Endgame Costs (Jan 31, 2026)";
+        const GAME_VERSION = "v2.2 - Economy Rebalance (Jan 31, 2026)";
         window.GAME_VERSION = GAME_VERSION;
 
         // GAME STATE
@@ -6806,8 +6806,8 @@ ${gameState.gameLog.join('\n')}
 
             // === BASE SALES ===
             // Starting point for a bulk store - tight margins, requires sacrifice
-            // Balanced so €80k by month 25 REQUIRES letting family drop to 20-30%
-            let baseSales = 16500;
+            // Balanced so building is ACHIEVABLE with smart play and some sacrifice
+            let baseSales = 19500;
 
             // === COMPOUNDING EFFECT 1: CHEESE TYPES ===
             // Cheese transforms the business - this is your main growth lever
@@ -6882,9 +6882,9 @@ ${gameState.gameLog.join('\n')}
             baseSales *= (0.95 + Math.random() * 0.1);
 
             // === DYNAMIC GROSS MARGIN ===
-            // Base margin for bulk store: 28% (tight margins on bulk goods)
+            // Base margin for bulk store: 30% (realistic specialty retail)
             // Cheese improves margin (premium products)
-            let marginPercent = 28;
+            let marginPercent = 30;
 
             // Cheese progression: up to +10% margin
             marginPercent += Math.min(10, gameState.cheeseTypes * 0.10);
