@@ -2405,7 +2405,7 @@
         // ============================================
         // GAME VERSION - Update this when making changes!
         // ============================================
-        const GAME_VERSION = "v2.0 - Balance Overhaul (Jan 31, 2026)";
+        const GAME_VERSION = "v2.1 - Endgame Costs (Jan 31, 2026)";
         window.GAME_VERSION = GAME_VERSION;
 
         // GAME STATE
@@ -6911,11 +6911,35 @@ ${gameState.gameLog.join('\n')}
 
             // === YOUR PERSONAL COSTS ===
             // Before building: Minimal survival salary (you need to eat!)
-            // After building: Real salary + lifestyle upgrades
+            // After building: Real salary + lifestyle upgrades that GROW over time
+            // Goal: End with ~€50K not €100K+ on a good playthrough
             if (gameState.salaryStarted) {
-                fixedCosts += (gameState.monthlySalary || 2500); // Full salary after building
-                if (gameState.hasCar) fixedCosts += (gameState.monthlyCarCost || 300);
-                if (gameState.hasApartment) fixedCosts += (gameState.monthlyApartmentCost || 1000);
+                const monthsSinceBuilding = gameState.monthsSinceBuilding || 0;
+
+                // Base salary - you finally pay yourself properly!
+                // Starts at €2,800, grows to €3,800 over 17 months
+                const baseSalary = 2800 + Math.min(1000, monthsSinceBuilding * 60);
+                fixedCosts += baseSalary;
+
+                // Car (after 6 months): €450/month (modest car, insurance, fuel)
+                if (gameState.hasCar) fixedCosts += 450;
+
+                // Apartment (after 12 months): €1,400/month (decent Brussels apartment)
+                if (gameState.hasApartment) fixedCosts += 1400;
+
+                // Lifestyle creep: Better food, clothes, occasional travel
+                // Adds €60/month each month after building (up to €1,000 at month 17)
+                const lifestyleCreep = Math.min(1000, monthsSinceBuilding * 60);
+                fixedCosts += lifestyleCreep;
+
+                // Business reinvestment: Equipment maintenance, small upgrades
+                // Grows from €200 to €700 over time
+                const reinvestment = 200 + Math.min(500, monthsSinceBuilding * 30);
+                fixedCosts += reinvestment;
+
+                // Social obligations (supplier relationships, community events)
+                if (monthsSinceBuilding >= 6) fixedCosts += 300;
+
             } else {
                 fixedCosts += 1200; // Survival salary - barely covering rent & food
             }
@@ -8068,19 +8092,16 @@ ${gameState.gameLog.join('\n')}
                 // Salary starts immediately after buying building
                 if (!gameState.salaryStarted) {
                     gameState.salaryStarted = true;
-                    gameState.monthlySalary = 2500;
                 }
 
-                // Car after 6 months (€300/month)
+                // Car after 6 months (€600/month - payment, insurance, fuel, maintenance)
                 if (monthsSinceBuilding >= 6 && !gameState.hasCar) {
                     gameState.hasCar = true;
-                    gameState.monthlyCarCost = 300;
                 }
 
-                // Apartment after 12 months (€1000/month)
+                // Apartment after 12 months (€2,050/month - rent + utilities in Brussels!)
                 if (monthsSinceBuilding >= 12 && !gameState.hasApartment) {
                     gameState.hasApartment = true;
-                    gameState.monthlyApartmentCost = 1000;
                 }
             }
 
