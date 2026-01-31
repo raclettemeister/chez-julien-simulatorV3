@@ -2065,6 +2065,7 @@
                     <span id="current-month">July 2022</span>
                 </div>
                 <span class="phase-badge" id="phase-badge">Month 1/42</span>
+                <span class="version-badge" id="version-badge" style="font-size: 10px; color: #888; margin-left: 8px;"></span>
             </div>
 
             <!-- Stats Bar with Hover Tooltips -->
@@ -2402,6 +2403,11 @@
 
     <script>
         // ============================================
+        // GAME VERSION - Update this when making changes!
+        // ============================================
+        const GAME_VERSION = "v2.0 - Balance Overhaul (Jan 31, 2026)";
+        window.GAME_VERSION = GAME_VERSION;
+
         // GAME STATE
         // ============================================
         // Expose gameState globally for testing
@@ -2885,6 +2891,9 @@
         document.addEventListener('DOMContentLoaded', () => {
             updatePersistentAchievementDisplay();
             updatePhotoCount();
+            // Display version in header
+            const versionBadge = document.getElementById('version-badge');
+            if (versionBadge) versionBadge.textContent = GAME_VERSION;
         });
 
         const difficultyModifiers = {
