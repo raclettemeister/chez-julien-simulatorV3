@@ -3095,19 +3095,19 @@
                         return [
                             {
                                 text: 'Clean up and absorb the loss',
-                                hint: 'Nothing else to do',
-                                effects: { stress: 30, energy: -30, family: -10 },
-                                outcome: 'Three days of cleanup. €6,000 in damaged inventory. No insurance payout. You should have paid for the coverage. Lesson learned the hard way.',
+                                hint: 'This will devastate your savings',
+                                effects: { stress: 40, energy: -35, family: -15 },
+                                outcome: 'A week of cleanup. €18,000 in damaged inventory and equipment. The basement fridge died. Stock ruined. No insurance payout. You watch months of savings drain away. This is the price of gambling on cheap insurance.',
                                 flags: { floodHappened: true, floodActive: false },
-                                conditionalEffects: () => ({ bank: -6000 })
+                                conditionalEffects: () => ({ bank: -18000, reputation: -5 })
                             },
                             {
                                 text: 'Ask family for emergency help',
-                                hint: 'Swallow your pride',
-                                effects: { stress: 25, energy: -25, family: -20 },
-                                outcome: 'Your parents helped with the cleanup. Your brother lent you €3,000. The damage still hurt, but family came through. You\'ll pay them back. Eventually.',
+                                hint: 'They can only cover part of this disaster',
+                                effects: { stress: 35, energy: -30, family: -25 },
+                                outcome: 'Your parents helped with cleanup. Your brother scraped together €5,000. But the damage is €18,000. You still lost €13,000. Family saved you from bankruptcy, but the resentment lingers. You owe them everything now.',
                                 flags: { floodHappened: true, floodActive: false },
-                                conditionalEffects: () => ({ bank: -3000 })
+                                conditionalEffects: () => ({ bank: -13000, reputation: -3 })
                             }
                         ];
                     }
@@ -3624,17 +3624,17 @@
                 choices: [
                     {
                         text: 'Throw the big party at the shop',
-                        hint: 'Cheese, wine, everyone you know',
-                        effects: { bank: -2000, stress: 30, energy: -25 },
-                        outcome: 'The shop was packed. Regulars, producers, old friends, new friends. Someone brought a cake shaped like a wheel of Comté. Your supplier from Auvergne drove up with a special cheese just for you. It was exhausting. It was perfect. Everyone saw what you\'d built.',
+                        hint: 'A proper party costs real money',
+                        effects: { bank: -4500, stress: 30, energy: -25 },
+                        outcome: 'The shop was packed. Regulars, producers, old friends, new friends. Someone brought a cake shaped like a wheel of Comté. Your supplier from Auvergne drove up with a special cheese just for you. Open bar, catering, decorations - €4,500 later, it was exhausting. It was perfect.',
                         flags: { hadBigBirthdayParty: true },
                         conditionalEffects: () => ({ family: 35, reputation: 8 })
                     },
                     {
                         text: 'Keep it small—dinner with loved ones',
-                        hint: 'Intimate, no chaos',
-                        effects: { bank: -300, stress: -5 },
-                        outcome: 'A quiet dinner. Good wine. Stories told. No one needed to see the shop. The people who mattered already knew.',
+                        hint: 'Nice restaurant, good wine',
+                        effects: { bank: -1200, stress: -5 },
+                        outcome: 'A quiet dinner at a nice restaurant. Good wine. Stories told. No one needed to see the shop. The people who mattered already knew.',
                         conditionalEffects: () => ({ family: 15, energy: 10 })
                     }
                 ]
@@ -3893,9 +3893,9 @@
                     },
                     {
                         text: 'Take a week off - embrace it',
-                        hint: 'Rest while it\'s quiet',
-                        effects: { stress: -15, energy: 20, family: 15, bank: -2000 },
-                        outcome: 'You closed for a week. First real break in months. The Belgian coast was healing. Let the cheese age in peace.'
+                        hint: 'A real vacation costs real money',
+                        effects: { stress: -15, energy: 20, family: 15, bank: -4500 },
+                        outcome: 'You closed for a week. First real break in months. The Belgian coast was healing. Let the cheese age in peace. But that week cost you - lost sales, spoiled stock, the vacation itself.'
                     }
                 ]
             },
@@ -3950,9 +3950,9 @@
                     },
                     {
                         text: 'Stay closed - it\'s not worth it',
-                        hint: 'Safety first',
-                        effects: { stress: -10, family: 10, bank: -500 },
-                        outcome: 'You stayed home. Built a snowman. Watched the city sleep. Sometimes the shop can wait.'
+                        hint: 'A day off costs more than you think',
+                        effects: { stress: -10, family: 10, bank: -1800 },
+                        outcome: 'You stayed home. Built a snowman. Watched the city sleep. The cheese aged unpurchased. Fixed costs don\'t stop for snow.'
                     }
                 ]
             },
@@ -4279,9 +4279,9 @@
                 choices: [
                     {
                         text: 'Promise to find better balance',
-                        hint: 'Mean it this time',
-                        effects: { stress: 10, family: 15 },
-                        outcome: 'You made promises. Specific ones. Date nights. Sunday mornings off. It helped. A little.'
+                        hint: 'Keeping promises costs sales',
+                        effects: { stress: 10, family: 15, bank: -1500 },
+                        outcome: 'You made promises. Specific ones. Date nights mean leaving early. Sunday mornings off mean lost sales. You kept them. It hurt the bottom line, but it helped. A little.'
                     },
                     {
                         text: '"This is temporary - I need support right now"',
@@ -4291,9 +4291,9 @@
                     },
                     {
                         text: 'Hire more help so you can be present',
-                        hint: 'Invest in the relationship',
-                        effects: { family: 25, bank: -500 },
-                        outcome: 'You found someone for Saturday afternoons. Date nights returned. The investment was worth it.',
+                        hint: 'Extra staffing is expensive',
+                        effects: { family: 25, bank: -2500 },
+                        outcome: 'You found someone for Saturday afternoons. Date nights returned. The extra €2,500/month in wages hurts, but the relationship is worth it.',
                         condition: () => gameState.hasLucas
                     }
                 ]
@@ -4823,9 +4823,9 @@
                 choices: [
                     {
                         text: 'Close for a week, recover',
-                        hint: 'Lost sales, but you survive',
-                        effects: { energy: 50, stress: -40, family: 20 },
-                        outcome: 'You closed the shop. "FERMÉ POUR RAISONS PERSONNELLES." A week in bed. Your body slowly forgave you.',
+                        hint: 'Lost sales and spoilage hurt',
+                        effects: { energy: 50, stress: -40, family: 20, bank: -5000 },
+                        outcome: 'You closed the shop. "FERMÉ POUR RAISONS PERSONNELLES." A week in bed. Your body slowly forgave you. The cheese didn\'t - €5,000 in spoilage and lost sales.',
                         flags: { burnoutCrashed: true, openSunday: false },
                         conditionalEffects: () => ({ salesPenalty: 8000 })
                     },
@@ -4848,9 +4848,9 @@
                 choices: [
                     {
                         text: 'Close Sundays permanently',
-                        hint: 'Lower stress, sustainable schedule',
-                        effects: { stress: -20, energy: 15, family: 20 },
-                        outcome: 'The sign now says "Fermé le Dimanche." Some customers complained. Your body celebrated.',
+                        hint: 'You\'ll lose ~€1000/month in sales',
+                        effects: { stress: -20, energy: 15, family: 20, bank: -1200 },
+                        outcome: 'The sign now says "Fermé le Dimanche." Regular Sunday customers found other shops. Your body celebrated; your bank account mourned.',
                         flags: { openSunday: false }
                     },
                     {
@@ -5012,9 +5012,9 @@
                     },
                     {
                         text: 'Take a spontaneous day off with your partner',
-                        hint: 'Invest in life outside the shop',
-                        effects: { energy: -10, bank: -150 },
-                        outcome: 'You closed early and surprised your partner. A long lunch, a walk by the canal, actual conversation. "I missed this," they said. So did you.',
+                        hint: 'Closing early costs a full day of sales',
+                        effects: { energy: -10, bank: -2200 },
+                        outcome: 'You closed early and surprised your partner. A long lunch, a walk by the canal, actual conversation. "I missed this," they said. So did you. The lost sales stung, but some things matter more.',
                         conditionalEffects: () => ({ family: 20, stress: -15 })
                     },
                     {
@@ -5040,9 +5040,9 @@
                 choices: [
                     {
                         text: 'Adopt the Australian Shepherd puppy',
-                        hint: 'High energy breed - demanding but incredibly rewarding',
-                        effects: { bank: -500, energy: -25, stress: 15 },
-                        outcome: 'You named him Poncho. He\'s a whirlwind of fur and love. Needs long walks, constant attention—but those eyes when he looks at you. Worth every exhausted evening.',
+                        hint: 'Vet bills, food, gear, time away from shop',
+                        effects: { bank: -1800, energy: -25, stress: 15 },
+                        outcome: 'You named him Poncho. He\'s a whirlwind of fur and love. Vet visits, premium food, endless toys. And the walks take time you could be at the shop. But those eyes when he looks at you. Worth every euro.',
                         flags: { hasDog: true, dogBreed: 'aussie' },
                         conditionalEffects: () => ({ family: 30, reputation: 3, stress: -20 })
                     },
@@ -5064,9 +5064,9 @@
                 choices: [
                     {
                         text: 'Lean into it - Poncho is part of the brand',
-                        hint: 'He forces you to take breaks. That might be healthy.',
-                        effects: { stress: -15, family: 10, energy: -10 },
-                        outcome: 'Poncho got his own Instagram. Customers who don\'t even buy anything stop by to see him. The walks between customers are actually... nice.',
+                        hint: 'Dog walks mean less time at the counter',
+                        effects: { stress: -15, family: 10, energy: -10, bank: -800 },
+                        outcome: 'Poncho got his own Instagram. Customers who don\'t even buy anything stop by to see him. The walks between customers mean missed sales, but are actually... nice.',
                         conditionalEffects: () => ({ reputation: 5 })
                     },
                     {
@@ -5336,9 +5336,9 @@
                 choices: [
                     {
                         text: 'Start delegating seriously',
-                        hint: 'Train them, trust them, let go',
-                        effects: { stress: -15, energy: 20, family: 15 },
-                        outcome: 'You trained Lucas on ordering. Gave Henry keys. The first week was terrifying. They didn\'t burn the shop down.',
+                        hint: 'Training takes time, mistakes cost money',
+                        effects: { stress: -15, energy: 20, family: 15, bank: -2000 },
+                        outcome: 'You trained Lucas on ordering. Gave Henry keys. Their early mistakes cost you €2,000 in misorders and waste. But they\'re learning.',
                         conditionalEffects: () => ({ autonomy: 25 })
                     },
                     {
@@ -5360,16 +5360,16 @@
                 choices: [
                     {
                         text: 'Take the holiday',
-                        hint: 'One week off, let the team handle it',
-                        effects: { energy: 40, stress: -30, family: 25 },
-                        outcome: 'You went to the coast. Checked your phone obsessively at first. By day 3, you relaxed. The shop survived.',
+                        hint: 'A week off costs €6,000 in lost sales and spoilage',
+                        effects: { energy: 40, stress: -30, family: 25, bank: -6000 },
+                        outcome: 'You went to the coast. Checked your phone obsessively at first. By day 3, you relaxed. The shop survived. Your savings... less so.',
                         conditionalEffects: () => ({ holidaysTaken: gameState.holidaysTaken + 1, autonomy: 10 })
                     },
                     {
                         text: 'Just a long weekend',
-                        hint: 'Compromise',
-                        effects: { energy: 15, stress: -10, family: 10 },
-                        outcome: 'Three days away. Not enough, but something. Your partner was grateful for the crumbs.'
+                        hint: 'Still costs money',
+                        effects: { energy: 15, stress: -10, family: 10, bank: -2500 },
+                        outcome: 'Three days away. Not enough, but something. Your partner was grateful for the crumbs. You lost €2,500 in sales.'
                     },
                     {
                         text: 'Not this time',
@@ -6796,9 +6796,9 @@ ${gameState.gameLog.join('\n')}
             const mod = difficultyModifiers[gameState.difficulty];
 
             // === BASE SALES ===
-            // Starting point for a bulk store - viable with growth potential
-            // Balanced for €80k at month 23-24 (tightened - should be stressful!)
-            let baseSales = 19000;
+            // Starting point for a bulk store - tight margins, requires sacrifice
+            // Balanced so €80k by month 25 REQUIRES letting family drop to 20-30%
+            let baseSales = 16500;
 
             // === COMPOUNDING EFFECT 1: CHEESE TYPES ===
             // Cheese transforms the business - this is your main growth lever
@@ -6895,10 +6895,10 @@ ${gameState.gameLog.join('\n')}
             // Cap at 45% (good specialty shop margin)
             marginPercent = Math.min(45, marginPercent);
 
-            // Costs - realistic for Belgium small retail
-            let fixedCosts = 1700; // Rent to Madame Malfait
-            fixedCosts += 300; // Utilities
-            fixedCosts += 150; // Insurance/accounting
+            // Costs - realistic for Belgium small retail (tightened economy)
+            let fixedCosts = 1900; // Rent to Madame Malfait
+            fixedCosts += 400; // Utilities
+            fixedCosts += 200; // Insurance/accounting
 
             // === YOUR PERSONAL COSTS ===
             // Before building: Minimal survival salary (you need to eat!)
@@ -6908,7 +6908,7 @@ ${gameState.gameLog.join('\n')}
                 if (gameState.hasCar) fixedCosts += (gameState.monthlyCarCost || 300);
                 if (gameState.hasApartment) fixedCosts += (gameState.monthlyApartmentCost || 1000);
             } else {
-                fixedCosts += 1000; // Survival salary - barely covering rent & food
+                fixedCosts += 1200; // Survival salary - barely covering rent & food
             }
 
             // Staff costs (part-time at first, grows)
@@ -7983,6 +7983,14 @@ ${gameState.gameLog.join('\n')}
             if (gameState.energy < 40) {
                 const energyStressPenalty = Math.ceil((40 - gameState.energy) / 10);
                 baseStressIncrease += energyStressPenalty;
+            }
+
+            // LOW FAMILY INCREASES STRESS - neglecting loved ones takes a toll
+            // Family 50+ = no penalty, Family 40 = +1, Family 30 = +2, Family 20 = +3, Family 10 = +4
+            // This makes sacrificing family for money feel UNSUSTAINABLE - burnout looms
+            if (gameState.family < 50) {
+                const familyStressPenalty = Math.ceil((50 - gameState.family) / 10);
+                baseStressIncrease += familyStressPenalty;
             }
 
             // Burnout recovery period: reduced stress gain (you're forced to slow down)
