@@ -31,6 +31,7 @@ Can you balance:
 
 ## Version History
 
+- **v4.0** - fixing the last shits
 - **v2.1** - Endgame cost escalation (salary, car, apartment grow over time)
 - **v2.0** - Balance overhaul (tighter economy, family choices cost real money)
 - **v1.0** - Initial release
