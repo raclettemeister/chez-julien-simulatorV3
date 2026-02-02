@@ -2284,6 +2284,10 @@
                                 <span>Loan Payment</span>
                                 <span id="bank-loan">€0</span>
                             </div>
+                            <div class="bank-row sub" id="bank-insurance-row" style="display:none;">
+                                <span>Insurance</span>
+                                <span id="bank-insurance">€0</span>
+                            </div>
                         </div>
                         <div class="bank-statement-section profit">
                             <div class="bank-row total">
@@ -2405,7 +2409,7 @@
         // ============================================
         // GAME VERSION - Update this when making changes!
         // ============================================
-        const GAME_VERSION = "v2.2 - Economy Rebalance (Jan 31, 2026)";
+        const GAME_VERSION = "v2.4 - Tightened Economy (Feb 1, 2026)";
         window.GAME_VERSION = GAME_VERSION;
 
         // GAME STATE
@@ -2565,7 +2569,7 @@
             { id: 'first_cheese', title: 'The Cheese Counter', description: 'First good cheese in the neighborhood!', icon: '🧀', image: 'first_cheese', condition: () => gameState.cheeseTypes >= 1, unlockEvent: 'first_cheese', date: '2023' },
             { id: 'poncho', title: 'Poncho Arrives', description: 'Those eyes! The Australian Shepherd who stole every heart', icon: '🐕', image: 'poncho_puppy', condition: () => gameState.hasDog, unlockEvent: 'adopt_poncho', date: 'September 2023' },
             { id: 'henry_joins', title: 'Henry - The Calm One', description: 'Finally, someone who knows what they\'re doing', icon: '👨‍💼', image: 'henry_joins', condition: () => gameState.hasHenry, unlockEvent: 'hire_henry', date: 'Early 2025' },
-            { id: 'christmas_chaos', title: 'Christmas Market', description: 'Lucas serving raclette sandwiches in the cold', icon: '🎄', image: 'christmas_market', condition: () => gameState.monthsPlayed >= 6, unlockEvent: 'christmas_rush', date: 'December' },
+            { id: 'christmas_chaos', title: 'Christmas Market', description: 'Lucas serving raclette sandwiches in the cold', icon: '🎄', image: 'christmas_market', condition: () => gameState.hasLucas && gameState.monthsPlayed >= 6, unlockEvent: null, date: 'December' },
             { id: 'team_photo', title: 'The Full Team', description: 'Julien, Lucas, and Henry - Santa hats mandatory', icon: '👥', image: 'team_christmas', condition: () => gameState.hasLucas && gameState.hasHenry, unlockEvent: null, date: 'Christmas 2024' },
             { id: 'flood_disaster', title: 'The Summer Flood', description: 'Ankle-deep in the storage room. Insurance saved us.', icon: '🌊', image: 'flood', condition: () => gameState.floodHappened, unlockEvent: 'summer_flood', date: 'Summer' },
             { id: 'anniversary', title: 'One Year!', description: 'Chez Julien a 1 an! Promotions et dégustations!', icon: '🎈', image: 'anniversary', condition: () => gameState.monthsPlayed >= 12, unlockEvent: null, date: 'July 2023' },
@@ -2580,7 +2584,7 @@
             { id: 'lucas_joins', title: 'Lucas Joins!', description: 'Your first employee. He\'s already charming the customers with raclette samples.', icon: '👨‍🍳', image: 'lucas_raclette', condition: () => gameState.hasLucas, unlockEvent: 'hire_lucas', date: '2023' },
             { id: 'busy_shop', title: 'The Rush', description: 'September chaos. The best kind of problem to have.', icon: '🏃', image: 'busy_shop', condition: () => gameState.septemberRushExperienced, unlockEvent: 'september_rush', date: 'September' },
             { id: 'julien_wine', title: 'Wine & Cheese', description: 'The perfect pairing. Each bottle tells a story.', icon: '🍷', image: 'julien_wine', condition: () => gameState.hasWineSelection, unlockEvent: 'add_wine', date: '' },
-            { id: 'christmas_gifts', title: 'Christmas Gift Boxes', description: 'Handmade gift boxes with the special Chez Julien touch.', icon: '🎁', image: 'christmas_display', condition: () => gameState.monthsPlayed >= 5 && gameState.month === 12, unlockEvent: 'christmas_rush', date: 'December' },
+            { id: 'christmas_gifts', title: 'Christmas Gift Boxes', description: 'Handmade gift boxes with the special Chez Julien touch.', icon: '🎁', image: 'christmas_display', condition: () => gameState.monthsPlayed >= 5 && gameState.month === 12, unlockEvent: null, date: 'December' },
             { id: 'shop_party', title: 'La Fête!', description: 'When the shop becomes a party. Good vibes only.', icon: '🎉', image: 'shop_party', condition: () => gameState.hadBigBirthdayParty, unlockEvent: 'birthday_party', date: '' },
             { id: 'poncho_surgery', title: 'The Cone of Shame', description: 'Too much cheese tasting! Poncho needed surgery. Lucia nursed him back to health.', icon: '🏥', image: 'lucia_poncho', condition: () => gameState.ponchoSurgery, unlockEvent: 'poncho_cheese_emergency', date: '' },
             { id: 'lucia_christmas', title: 'Christmas Artist', description: 'Lucia painting the shop windows. Love is in the details.', icon: '🎨', image: 'lucia_christmas', condition: () => gameState.monthsPlayed >= 5, unlockEvent: 'christmas_rush', date: 'December' },
@@ -3095,9 +3099,9 @@
                                 text: 'File the insurance claim',
                                 hint: 'This is why you paid for coverage',
                                 effects: { stress: 15, energy: -20 },
-                                outcome: 'The insurance adjuster came within 48 hours. They covered everything: €8,000 for damaged goods, €2,000 for cleanup, plus €3,000 for "business interruption." The slow-moving bulk stock you\'d been stuck with? Gone, but paid for at retail value. You used the money to restock with faster-moving products. The flood was traumatic, but financially... it actually helped.',
+                                outcome: 'The insurance adjuster came within 48 hours. They covered most of it: €4,000 for damaged goods, €1,500 for cleanup, plus €1,000 for "business interruption." The deductible stung, but better than paying €18,000 out of pocket.',
                                 flags: { floodHappened: true, floodActive: false },
-                                conditionalEffects: () => ({ bank: 13000, reputation: 3 }) // Insurance payout
+                                conditionalEffects: () => ({ bank: 6500, reputation: 3 }) // Insurance payout (halved v2.3)
                             }
                         ];
                     } else {
@@ -4911,8 +4915,9 @@
                 title: 'Lucas Has a Friend',
                 description: 'Lucas has been great. Unreliable sometimes, but customers adore him. One day he mentions his best friend Henry: "He\'s looking for work. Most reliable person I know. Complete opposite of me, actually."',
                 type: 'hiring',
-                monthRange: [30, 38],  // Reality: Early 2025 = Month 31-32
-                condition: () => gameState.hasLucas && gameState.lucasMonthsWorked >= 3 && !gameState.hasHenry,  // 3+ months with Lucas
+                monthRange: [28, 42],  // Wider range to ensure it triggers
+                priority: 85,  // High priority - important hire event
+                condition: () => gameState.hasLucas && gameState.lucasMonthsWorked >= 2 && !gameState.hasHenry,  // 2+ months with Lucas (was 3)
                 choices: [
                     {
                         text: 'Hire Henry',
@@ -6640,6 +6645,10 @@
             document.getElementById('title-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'block';
 
+            // Reset photos for new game (keep only shop_front)
+            unlockedPhotos = ['shop_front'];
+            localStorage.setItem('chezJulien_photos', JSON.stringify(unlockedPhotos));
+
             // Calculate initial finances before showing UI
             calculateMonthlyFinancials();
 
@@ -6807,7 +6816,7 @@ ${gameState.gameLog.join('\n')}
             // === BASE SALES ===
             // Starting point for a bulk store - tight margins, requires sacrifice
             // Balanced so building is ACHIEVABLE with smart play and some sacrifice
-            let baseSales = 19500;
+            let baseSales = 19000; // v2.4: reduced from 19500
 
             // === COMPOUNDING EFFECT 1: CHEESE TYPES ===
             // Cheese transforms the business - this is your main growth lever
@@ -6958,8 +6967,11 @@ ${gameState.gameLog.join('\n')}
             if (gameState.cheeseTypes > 50) fixedCosts += 150;
             if (gameState.cheeseTypes > 80) fixedCosts += 200;
 
-            // If you own building, no rent!
-            if (gameState.ownsBuilding) fixedCosts -= 1700;
+            // If you own building, no rent but loan payment!
+            if (gameState.ownsBuilding) {
+                fixedCosts -= 1900; // Remove rent to Madame Malfait
+                fixedCosts += 2500; // Add building loan payment (v2.4: up from 2250)
+            }
 
             fixedCosts *= mod.costMod;
 
@@ -7100,6 +7112,7 @@ ${gameState.gameLog.join('\n')}
             const marginPercent = gameState.grossMarginPercent || 30;
             const cogs = Math.round(totalSales * (1 - marginPercent / 100));
             const rent = gameState.ownsBuilding ? 0 : 1700;
+            const buildingLoan = gameState.ownsBuilding ? 2500 : 0;
 
             // Owner salary only starts after buying building
             const ownerSalary = gameState.salaryStarted ? (gameState.monthlySalary || 2500) : 0;
@@ -7118,7 +7131,7 @@ ${gameState.gameLog.join('\n')}
             const insurance = (gameState.monthlyInsurance || 0) + 150;
             const utilities = 300;
 
-            const totalExpenses = cogs + rent + ownerSalary + carCost + apartmentCost + staffWages + loanPayment + insurance + utilities;
+            const totalExpenses = cogs + rent + buildingLoan + ownerSalary + carCost + apartmentCost + staffWages + loanPayment + insurance + utilities;
 
             const totalExpensesEl = document.getElementById('bank-total-expenses');
             if (totalExpensesEl) totalExpensesEl.textContent = formatMoney(totalExpenses);
@@ -7127,7 +7140,7 @@ ${gameState.gameLog.join('\n')}
             if (cogsEl) cogsEl.textContent = formatMoney(cogs);
 
             const rentEl = document.getElementById('bank-rent');
-            if (rentEl) rentEl.textContent = gameState.ownsBuilding ? '€0 (Owner!)' : formatMoney(rent);
+            if (rentEl) rentEl.textContent = gameState.ownsBuilding ? `€2,500 (Loan)` : formatMoney(rent);
 
             const ownerSalaryEl = document.getElementById('bank-owner-salary');
             if (ownerSalaryEl) {
@@ -7183,6 +7196,18 @@ ${gameState.gameLog.join('\n')}
                     loanEl.textContent = formatMoney(loanPayment);
                 } else {
                     loanRow.style.display = 'none';
+                }
+            }
+
+            // Insurance row
+            const insuranceRow = document.getElementById('bank-insurance-row');
+            const insuranceEl = document.getElementById('bank-insurance');
+            if (insuranceRow && insuranceEl) {
+                if (gameState.hasComprehensiveInsurance) {
+                    insuranceRow.style.display = 'flex';
+                    insuranceEl.textContent = '€150 (Comprehensive)';
+                } else {
+                    insuranceRow.style.display = 'none';
                 }
             }
 
@@ -7787,37 +7812,30 @@ ${gameState.gameLog.join('\n')}
                     if (gameState.cheeseTypes >= 50 && !gameState.cheeseMilestone50Triggered) {
                         gameState.cheeseMilestone50Triggered = true;
                         checkPhotoUnlocks('cheese_milestone_50');
-                        triggerEventPolaroid('cheese_milestone_50');
                     }
                 }
                 // Trigger building purchased photo when ownsBuilding becomes true
                 if (choice.flags.ownsBuilding === true) {
                     gameState.monthsSinceBuilding = 0; // Track for SOLD banner display
                     checkPhotoUnlocks('building_purchased');
-                    triggerEventPolaroid('building_purchased');
                 }
                 // Trigger hire photo when hiring first employee
                 if (choice.flags.hasLucas === true) {
                     checkPhotoUnlocks('hire_lucas');
-                    triggerEventPolaroid('hire_lucas');
                 }
                 if (choice.flags.hasHenry === true) {
                     checkPhotoUnlocks('hire_henry');
-                    triggerEventPolaroid('hire_henry');
                 }
                 if (choice.flags.hadBigBirthdayParty === true) {
                     checkPhotoUnlocks('birthday_party');
-                    triggerEventPolaroid('birthday_party');
                 }
                 if (choice.flags.hasDog === true) {
                     console.log('🐕 hasDog flag set! Triggering adopt_poncho photo');
                     checkPhotoUnlocks('adopt_poncho');
-                    triggerEventPolaroid('adopt_poncho');
                 }
                 if (choice.flags.septemberRushExperienced === true) {
                     console.log('🏃 septemberRushExperienced flag set! Triggering september_rush photo');
                     checkPhotoUnlocks('september_rush');
-                    triggerEventPolaroid('september_rush');
                 }
             }
 
@@ -7860,7 +7878,8 @@ ${gameState.gameLog.join('\n')}
                         gameState.bank -= effects[key];
                         break;
                     case 'energy':
-                        gameState.energy = clamp(gameState.energy + effects[key] * (effects[key] < 0 ? mod.meterDrain : 1), 0, 100);
+                        // Energy costs halved (v2.3) - energy is "nice fluff", not punishing
+                        gameState.energy = clamp(gameState.energy + effects[key] * (effects[key] < 0 ? mod.meterDrain * 0.5 : 1), 0, 100);
                         break;
                     case 'stress':
                         let stressMod = effects[key] > 0 ? mod.meterDrain : 1;
